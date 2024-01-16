@@ -1,6 +1,6 @@
 import { ICoordinates } from "../@types/coords";
 
-export const data: ICoordinates[] = [
+export const pointsData: ICoordinates[] = [
     { x: 1, y: 2, z: 3 },
     { x: 4, y: 5, z: 6 },
     { x: 7, y: 8, z: 9 },
