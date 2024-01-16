@@ -40,9 +40,7 @@ const Grid = ({maxX, maxY, maxZ}: GridProp) => {
           <lineBasicMaterial attach="material" color={'green'} linewidth={1} linecap={'round'} linejoin={'round'} />
         </line>
 
-        {
-            
-        }
+        
     </>
   )
 }
