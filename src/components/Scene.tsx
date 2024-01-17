@@ -29,7 +29,7 @@ const Scene = ({data}: sceneProps) => {
         {data.map((p, i) => (
           <mesh key={i} position={[p.coord[0], p.coord[1], p.coord[2]]}>
             <sphereGeometry args={[p.size, 64, 32, 100]} />
-            <meshStandardMaterial color="#CC3941" wireframe />
+            <meshStandardMaterial color={p.color} wireframe />
           </mesh>
         ))}
 

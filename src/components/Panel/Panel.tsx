@@ -13,7 +13,7 @@ const Panel = ({ data, setData }: PanelProps) => {
     const newPoint: IPoint = {
       coord: [1,1,1],
       size: 1,
-      color: "black",
+      color: "red",
     };
     setData([...data, newPoint]);
   };
