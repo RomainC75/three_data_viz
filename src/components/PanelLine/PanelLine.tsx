@@ -41,10 +41,11 @@ const PanelLine = ({ lineData, lineIndex, setLineData }: PanelLineProps) => {
   };
 
   return (
-    <div className="panelLine">
+    <div className="panelLine flex">
       <div className="flex">
-        <div>
-            <p>X</p>
+        <div className="w-32">
+          <p>X</p>
+          <div className="border border-primary">
           <input
             type="number"
             step="0.1"
@@ -53,35 +54,42 @@ const PanelLine = ({ lineData, lineIndex, setLineData }: PanelLineProps) => {
             value={lineData.coord[0]}
             onChange={(event) => setCoord([event, undefined, undefined])}
           />
+          </div>
         </div>
-        <div>
-            <p>Y</p>
+        <div className="w-32">
+          <p>Y</p>
+          <div className="border border-primary">
           <input
             type="number"
             step="0.1"
             min="0"
             max="20"
-            value={lineData.coord[0]}
+            value={lineData.coord[1]}
             onChange={(event) => setCoord([undefined, event, undefined])}
           />
+          </div>
         </div>
-        <div>
-            <p>Z</p>
+        <div className="w-32">
+          <p>Z</p>
+          <div className="border border-primary">
           <input
             type="number"
             step="0.1"
             min="0"
             max="20"
-            value={lineData.coord[0]}
+            value={lineData.coord[2]}
             onChange={(event) => setCoord([undefined, undefined, event])}
           />
+          </div>
         </div>
       </div>
-      <Slider
-        aria-label="Volume"
-        value={lineData.size}
-        onChange={handleSlider}
-      />
+      <div className="w-32">
+        <Slider
+          aria-label="Volume"
+          value={lineData.size}
+          onChange={handleSlider}
+        />
+      </div>
     </div>
   );
 };
