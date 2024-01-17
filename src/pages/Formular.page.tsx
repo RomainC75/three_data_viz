@@ -1,13 +1,12 @@
 import React from 'react'
 import Scene from '../components/Scene'
-import Navbar from '../components/Navbar'
 
-const HomePage = () => {
+const Formular = () => {
   return (
     <div>
-      <Navbar/>
+      <Scene/>
     </div>
   )
 }
 
-export default HomePage
+export default Formular
