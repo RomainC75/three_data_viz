@@ -23,6 +23,11 @@ const Panel = ({ data, setData }: PanelProps) => {
     setData(data.map((p,i)=>i===index ? lineData : p))
   };
 
+
+  const deleteLine = (index: number)=>{
+    setData(data.filter((_,i)=>i!==index))
+  }
+
   return (
     <div className="panel">
       {data.map((lineData, index) => (
@@ -31,6 +36,7 @@ const Panel = ({ data, setData }: PanelProps) => {
           lineData={lineData}
           lineIndex={index}
           setLineData={setLineData}
+          deleteLine={deleteLine}
         />
       ))}
 

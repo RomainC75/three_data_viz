@@ -7,6 +7,7 @@ interface PanelLineProps {
   lineData: IPoint;
   lineIndex: number;
   setLineData: (lineData: IPoint, index: number) => void;
+  deleteLine: (lineIndex:number)=>void
 }
 
 const colors = [
@@ -16,7 +17,7 @@ const colors = [
     "yellow"
 ]
 
-const PanelLine = ({ lineData, lineIndex, setLineData }: PanelLineProps) => {
+const PanelLine = ({ lineData, lineIndex, setLineData, deleteLine }: PanelLineProps) => {
   
     const handleSlider = (_, newValue: number | number[]) => {
     if (!Array.isArray(newValue)) {
@@ -131,6 +132,9 @@ const PanelLine = ({ lineData, lineIndex, setLineData }: PanelLineProps) => {
           ))}
       </Select>
 
+    <div onClick={()=>deleteLine(lineIndex)}>
+        DELETE
+    </div>
     </div>
   );
 };
