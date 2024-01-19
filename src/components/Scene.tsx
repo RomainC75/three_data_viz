@@ -6,8 +6,10 @@ import { IPoint } from "../@types/coords";
 interface sceneProps{
   data: IPoint[]
 }
+const MAX=[10,10,10]
 
 const Scene = ({data}: sceneProps) => {
+
 
   return (
     <div
@@ -24,7 +26,7 @@ const Scene = ({data}: sceneProps) => {
         <OrbitControls />
         <ambientLight intensity={2} />
 
-        <Grid maxX={10} maxY={10} maxZ={10} />
+        <Grid maxX={MAX[0]} maxY={MAX[1]} maxZ={MAX[2]} />
 
         {data.map((p, i) => (
           <mesh key={i} position={[p.coord[0], p.coord[1], p.coord[2]]}>
