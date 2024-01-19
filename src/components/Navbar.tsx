@@ -14,6 +14,9 @@ const Navbar = () => {
           <li>
              <Link to="/formular">Formular</Link>
           </li>
+          <li>
+             <Link to="/crypto">Crypto</Link>
+          </li>
        </ul>
  </nav>
 
