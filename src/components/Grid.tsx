@@ -1,6 +1,3 @@
-import React from 'react'
-import * as THREE from 'three';
-import { TCoord } from '../@types/coords';
 import { getLinePoints, getXYZGridLines } from '../utils/grid.helper';
 
 
@@ -10,6 +7,8 @@ interface GridProp {
     maxY: number
     maxZ: number
 }
+
+
 
 
 const Grid = ({maxX, maxY, maxZ}: GridProp) => {
@@ -31,9 +30,9 @@ const Grid = ({maxX, maxY, maxZ}: GridProp) => {
         </line>
 
         {
-          getXYZGridLines([maxX,maxY,maxZ]).map(face=>face.map(line=>
+          getXYZGridLines([maxX,maxY,maxZ]).map((face)=>face.map(line=>
             <line geometry={line}>
-          <lineBasicMaterial attach="material" color={'blue'} linewidth={1} linecap={'round'} linejoin={'round'} />
+          <lineBasicMaterial attach="material" color={'grey'} linewidth={1} linecap={'round'} linejoin={'round'} />
         </line>
             ))
         }

@@ -27,7 +27,7 @@ export const getXYZGridLines = (maxes: [number,number,number]): THREE.BufferGeom
 
 const getLine = (maxes: number[], axeCount: number, axeIndex: number, isReversed: boolean): [THREE.Vector3, THREE.Vector3] =>{
   const p1: TCoord = [axeCount, 0, 0]
-  const p2: TCoord = [axeCount, axeIndex <2 ? maxes[axeIndex]+1 : maxes[0], 0]
+  const p2: TCoord = [axeCount, axeIndex <2 ? maxes[axeIndex+1] : maxes[0], 0]
   const rotatedP1 = rotate(isReversed ? getAxeReversedCoord(p1) : p1,axeIndex)
   const rotatedP2 = rotate(isReversed ? getAxeReversedCoord(p2) : p2,axeIndex)
       return [
