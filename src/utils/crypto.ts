@@ -1,6 +1,6 @@
 export class CryptoSubscription {
   currenciesWS: WebSocket[];
-  lastValues: number[];
+  lastValues: number[] = []
 
   constructor(currencyPairs: string[]) {
     this.lastValues = Array(currencyPairs.length).fill(0)
@@ -13,8 +13,6 @@ export class CryptoSubscription {
     setInterval(()=>{
         fn(this.lastValues)
     },1000)
-
-    
   }
 
   init(currencyPair: string, index: number) {

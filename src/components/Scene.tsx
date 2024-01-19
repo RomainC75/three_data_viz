@@ -10,7 +10,6 @@ const MAX=[10,10,10]
 
 const Scene = ({data}: sceneProps) => {
 
-
   return (
     <div
       style={{ width: "1500px", height: "1000px", border: "1px solid white" }}
