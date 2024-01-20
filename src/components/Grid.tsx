@@ -10,7 +10,6 @@ interface GridProp {
 
 
 
-
 const Grid = ({maxX, maxY, maxZ}: GridProp) => {
 
     const xLineGeometry = getLinePoints(maxX, 0, 0)

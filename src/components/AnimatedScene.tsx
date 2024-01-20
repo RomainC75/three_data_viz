@@ -3,14 +3,15 @@ import { Canvas } from "@react-three/fiber";
 import Grid from "./Grid";
 import { IPoint } from "../@types/coords";
 import SceneContent from "./SceneContent";
+import { IValue } from "../utils/crypto";
+import { ICryptoData } from "../@types/crypto.types";
 
 interface AnimatedSceneProps{
-  data: IPoint[]
+  data: ICryptoData
 }
 const MAX=[10,10,10]
 
 const AnimatedScene = ({data}: AnimatedSceneProps) => {
-
   return (
     <div
       style={{ width: "1500px", height: "1000px", border: "1px solid white" }}
