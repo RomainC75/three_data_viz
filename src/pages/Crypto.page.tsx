@@ -3,6 +3,7 @@ import { CryptoSubscription } from "../utils/crypto";
 import { listItemAvatarClasses } from "@mui/material";
 import Scene from "../components/Scene";
 import { IPoint } from "../@types/coords";
+import AnimatedScene from "../components/AnimatedScene";
 
 const getTCoord = (values: number[]): IPoint[] => {
   return values.map((v) => {
@@ -33,7 +34,7 @@ const CryptoPage = () => {
   return (
     <div>
       {/* {lastData.map((n,i)=><p key={i}>{n}</p>)} */}
-      <Scene data={lastData} />
+      <AnimatedScene data={lastData} />
     </div>
   );
 };

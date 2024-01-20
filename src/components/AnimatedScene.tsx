@@ -2,13 +2,14 @@ import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Grid from "./Grid";
 import { IPoint } from "../@types/coords";
+import SceneContent from "./SceneContent";
 
-interface sceneProps{
+interface AnimatedSceneProps{
   data: IPoint[]
 }
 const MAX=[10,10,10]
 
-const Scene = ({data}: sceneProps) => {
+const AnimatedScene = ({data}: AnimatedSceneProps) => {
 
   return (
     <div
@@ -24,23 +25,16 @@ const Scene = ({data}: sceneProps) => {
       >
 
         {/* 1 / make a component ! */}
-        {/* 2 /useRef */}
+        {/* 2 / useRef */}
 
         <OrbitControls />
         <ambientLight intensity={2} />
 
-        <Grid maxX={MAX[0]} maxY={MAX[1]} maxZ={MAX[2]} />
-
-        {data.map((p, i) => (
-          <mesh key={i} position={[p.coord[0], p.coord[1], p.coord[2]]}>
-            <sphereGeometry args={[p.size, 64, 32, 100]} />
-            <meshStandardMaterial color={p.color} wireframe />
-          </mesh>
-        ))}
+        <SceneContent data={data}/>
 
       </Canvas>
     </div>
   );
 };
 
-export default Scene;
+export default AnimatedScene;
