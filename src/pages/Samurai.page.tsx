@@ -1,6 +1,7 @@
 import { Canvas } from "@react-three/fiber"
 import SamuraiScene from "../components/samurai/SamuraiScene"
 import { useState } from "react";
+import { Fog } from 'three';
 
 const SamuraiPage = () => {
   const [isRotating, setIsRotating] = useState<boolean>(false);

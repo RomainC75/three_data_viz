@@ -3,11 +3,15 @@ import { Canvas } from "@react-three/fiber";
 import SceneContent from "./SceneContent";
 import { ICryptoData } from "../@types/crypto.types";
 import { useEffect } from "react";
+import * as THREE from 'three';
+import { Effects } from "./samurai/Effect";
 
 interface AnimatedSceneProps{
   data: ICryptoData
 }
 const MAX=[10,10,10]
+
+
 
 const AnimatedScene = ({data}: AnimatedSceneProps) => {
     useEffect(()=>{
@@ -25,6 +29,10 @@ const AnimatedScene = ({data}: AnimatedSceneProps) => {
           far: 200,
           position: [20, 20, 20],
         }}
+        onCreated={({ gl }) => {
+            gl.toneMapping = THREE.ReinhardToneMapping
+            gl.setClearColor(new THREE.Color('#020207'))
+          }}
       >
 
         {/* 1 / make a component ! */}
@@ -32,9 +40,9 @@ const AnimatedScene = ({data}: AnimatedSceneProps) => {
 
         <OrbitControls />
         <ambientLight intensity={2} />
-
         <SceneContent data={data}/>
 
+        <Effects/>
       </Canvas>
     </div>
   );

@@ -1,15 +1,20 @@
 import { Canvas, useThree } from "@react-three/fiber";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Samurai } from "./Samurai";
 import Loader from "../Loader";
 import { useControls } from "leva";
-import { OrbitControls } from "@react-three/drei";
+import { CameraShake, OrbitControls } from "@react-three/drei";
 import { AxesHelper, MathUtils, Vector3 } from "three";
 import { Floor } from "./Floor";
 import { StreetSign } from "./StreetSign";
+import { Swarm } from "./Swarm";
+import { Bloom, DepthOfField, EffectComposer, Noise, Vignette } from "@react-three/postprocessing";
+import { KernelSize } from 'postprocessing'
 
 const SamuraiScene = () => {
   const { camera } = useThree();
+  const mouse = useRef([0, 0])
+  const [isMobile, setIsMobile] = useState(false)
 
   const handleScroll = (e: WheelEvent) => {
     console.log("=> ", e, window);
@@ -109,6 +114,17 @@ const SamuraiScene = () => {
         position={[-10, -2, 0]}
         rotation={[0, 0, MathUtils.degToRad(20)]}
       />
+      <EffectComposer>
+      <Bloom kernelSize={3} luminanceThreshold={0} luminanceSmoothing={0.4} intensity={0.6} />
+          <Bloom kernelSize={KernelSize.HUGE} luminanceThreshold={0} luminanceSmoothing={0} intensity={0.5} />
+          {/* <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} /> */}
+        {/* <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
+        <Noise opacity={0.02} />
+        <Vignette eskil={false} offset={0.1} darkness={1.1} /> */}
+        </EffectComposer>
+
+      <Swarm count={isMobile ? 1000 : 2000} mouse={mouse} />
+      {/* <CameraShake yawFrequency={0.1} pitchFrequency={0.1} rollFrequency={0.1} /> */}
       <Floor rotation={[0, MathUtils.degToRad(90), 0]} scale={2} />
     </>
   );

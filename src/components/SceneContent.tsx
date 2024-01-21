@@ -11,6 +11,7 @@ import {
   Object3DEventMap,
 } from "three";
 
+
 interface SceneContentProps {
   data: ICryptoData;
   currencies?: string[];
