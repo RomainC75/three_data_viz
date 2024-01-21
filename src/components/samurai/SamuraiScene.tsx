@@ -5,6 +5,7 @@ import Loader from "../Loader";
 import { useControls } from "leva";
 import { OrbitControls } from "@react-three/drei";
 import { AxesHelper, MathUtils, Vector3 } from "three";
+import { Floor } from "./Floor";
 
 const SamuraiScene = () => {
   const { camera } = useThree();
@@ -18,7 +19,7 @@ const SamuraiScene = () => {
     camera.position.x = Math.sin(yPosition)*17
     camera.position.z = Math.cos(yPosition)*17
     // camera.rotation.x -= MathUtils.degToRad(e.deltaY/120)
-    camera.lookAt(new Vector3(0,yPosition-5, 0))
+    camera.lookAt(new Vector3(0,yPosition-8, 0))
     console.log("=> y position : ", camera.position.y)
   }
 
@@ -84,7 +85,7 @@ const SamuraiScene = () => {
     <>
       
         <Suspense fallback={<Loader />}>
-        {/* <OrbitControls /> */}
+        <OrbitControls />
           <ambientLight intensity={2} />
           <pointLight
             position={light1Position}
@@ -103,7 +104,8 @@ const SamuraiScene = () => {
           />
         </Suspense>
 
-        <Samurai scale={10}/>
+        <Samurai scale={10} position={[0,2.5,0]}/>
+        <Floor rotation={[0,MathUtils.degToRad(90),0]} scale={2}/>
     </>
   );
 };
