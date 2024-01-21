@@ -6,33 +6,34 @@ import { useControls } from "leva";
 import { OrbitControls } from "@react-three/drei";
 import { AxesHelper, MathUtils, Vector3 } from "three";
 import { Floor } from "./Floor";
+import { StreetSign } from "./StreetSign";
 
 const SamuraiScene = () => {
   const { camera } = useThree();
-  
-  const handleScroll = (e: WheelEvent) =>{
-    console.log("=> ", e, window)
-    camera.position.y += e.deltaY/120
 
-    const yPosition = camera.position.y
-    
-    camera.position.x = Math.sin(yPosition)*17
-    camera.position.z = Math.cos(yPosition)*17
+  const handleScroll = (e: WheelEvent) => {
+    console.log("=> ", e, window);
+    camera.position.y += e.deltaY / 120;
+
+    const yPosition = camera.position.y;
+
+    camera.position.x = Math.sin(yPosition) * 17;
+    camera.position.z = Math.cos(yPosition) * 17;
     // camera.rotation.x -= MathUtils.degToRad(e.deltaY/120)
-    camera.lookAt(new Vector3(0,yPosition-8, 0))
-    console.log("=> y position : ", camera.position.y)
-  }
+    camera.lookAt(new Vector3(0, yPosition - 8, 0));
+    console.log("=> y position : ", camera.position.y);
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     // const handleScroll = (window: Window, e: Event) => {
     //   console.log("=> ", e, window);
     // };
 
-    window.addEventListener('wheel', handleScroll);
-    return ()=>{
-      window.removeEventListener('wheel', handleScroll);
-    }
-  },[])
+    window.addEventListener("wheel", handleScroll);
+    return () => {
+      window.removeEventListener("wheel", handleScroll);
+    };
+  }, []);
 
   const {
     light1Intensity,
@@ -67,7 +68,7 @@ const SamuraiScene = () => {
       max: 500,
     },
     light3Position: {
-      value: [6,9,-7],
+      value: [6, 9, -7],
       step: 0.1,
       min: -40,
       max: 40,
@@ -80,32 +81,35 @@ const SamuraiScene = () => {
     },
   });
 
-
   return (
     <>
-      
-        <Suspense fallback={<Loader />}>
+      <Suspense fallback={<Loader />}>
         <OrbitControls />
-          <ambientLight intensity={2} />
-          <pointLight
-            position={light1Position}
-            intensity={light1Intensity}
-            color={"#FFECA6"}
-          />
-          <pointLight
-            position={light2Position}
-            intensity={light2Intensity}
-            color={"white"}
-          />
-          <pointLight
-            position={light3Position}
-            intensity={light3Intensity}
-            color={"#A6EBFF"}
-          />
-        </Suspense>
+        <ambientLight intensity={2} />
+        <pointLight
+          position={light1Position}
+          intensity={light1Intensity}
+          color={"#FFECA6"}
+        />
+        <pointLight
+          position={light2Position}
+          intensity={light2Intensity}
+          color={"white"}
+        />
+        <pointLight
+          position={light3Position}
+          intensity={light3Intensity}
+          color={"#A6EBFF"}
+        />
+      </Suspense>
 
-        <Samurai scale={10} position={[0,2.5,0]}/>
-        <Floor rotation={[0,MathUtils.degToRad(90),0]} scale={2}/>
+      <Samurai scale={10} position={[0, 2.5, 0]} />
+      <StreetSign
+        scale={10}
+        position={[-10, -2, 0]}
+        rotation={[0, 0, MathUtils.degToRad(20)]}
+      />
+      <Floor rotation={[0, MathUtils.degToRad(90), 0]} scale={2} />
     </>
   );
 };
