@@ -12,6 +12,7 @@ import { StreetSign } from "./StreetSign";
 import { Swarm } from "./Swarm";
 import {
   Bloom,
+  DepthOfField,
   EffectComposer,
 } from "@react-three/postprocessing";
 import { KernelSize } from "postprocessing";
@@ -156,6 +157,7 @@ const SamuraiScene = () => {
           luminanceSmoothing={0}
           intensity={0.1}
         />
+        <DepthOfField target={[0, 0, 13]} focalLength={0.3} bokehScale={15} height={700} />
       </EffectComposer>
 
       <Swarm count={isMobile ? 1000 : 2000} mouse={mouse} />
