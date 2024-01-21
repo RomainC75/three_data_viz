@@ -56,7 +56,7 @@ export function Swarm({ count, mouse }) {
         <pointLight ref={light} distance={40} intensity={8} color="lightblue" />
         <instancedMesh ref={mesh} args={[null, null, count]}>
           <dodecahedronGeometry attach="geometry" args={[0.2, 0]} />
-          <meshPhongMaterial attach="material" color="#050505" />
+          <meshPhongMaterial attach="material" color="#ffffff" />
         </instancedMesh>
       </>
     )

@@ -15,10 +15,12 @@ const SamuraiPage = () => {
           far: 100,
           position: [13, 5, 17],
         }}
-        className={`w-full h-screen bg-transparent ${
+        // bg-transparent
+        className={`w-full h-screen bg-black ${
           isRotating ? "cursor-grabbing" : "cursor-grab"
         }`}
       >
+        
         <SamuraiScene/>
       </Canvas>
     </div>
