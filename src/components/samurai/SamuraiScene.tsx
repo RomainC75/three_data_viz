@@ -1,4 +1,4 @@
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Samurai } from "./Samurai";
 import Loader from "../Loader";
@@ -20,18 +20,41 @@ const SamuraiScene = () => {
   const { camera } = useThree();
   const mouse = useRef([0, 0]);
   const [isMobile, setIsMobile] = useState(false);
+  
+  let targetPlace = 4
+  const deltaMove=0.01
+  let actualPlace = 0
+  const scrollStep = 0.2
+
+  useFrame(({clock})=>{
+    // console.log("=> clock : ", clock)
+    // target
+    if((Math.abs(camera.position.y-targetPlace)>0.02) ){
+      console.log("=> MMMOOOOVEEE")
+      
+      actualPlace += (camera.position.y<targetPlace) ? deltaMove : -deltaMove
+      camera.position.y = actualPlace;
+
+      camera.position.x = Math.sin(actualPlace) * 17;
+      camera.position.z = Math.cos(actualPlace) * 17;
+      // camera.rotation.x -= MathUtils.degToRad(e.deltaY/120)
+      camera.lookAt(new Vector3(0, -0.05*actualPlace+10, 0));
+      console.log("=> y position : ", camera.position.y);
+    }
+
+    // actual
+
+  })
+
 
   const handleScroll = (e: WheelEvent) => {
-    console.log("=> ", e, window);
-    camera.position.y += e.deltaY / 120;
-
-    const yPosition = camera.position.y;
-
-    camera.position.x = Math.sin(yPosition) * 17;
-    camera.position.z = Math.cos(yPosition) * 17;
-    // camera.rotation.x -= MathUtils.degToRad(e.deltaY/120)
-    camera.lookAt(new Vector3(0, yPosition - 8, 0));
-    console.log("=> y position : ", camera.position.y);
+    targetPlace += e.deltaY > 0 ? scrollStep : -scrollStep;
+    if(targetPlace>20){
+      targetPlace=10
+    }else if(targetPlace<0){
+      targetPlace=0
+    }
+    console.log("=> TARGET PLACE : ", targetPlace)
   };
 
   useEffect(() => {
@@ -95,7 +118,7 @@ const SamuraiScene = () => {
     <>
       <fog attach="fog" args={['black', 15, 35]} />
       <Suspense fallback={<Loader />}>
-        <OrbitControls />
+        {/* <OrbitControls /> */}
         <ambientLight intensity={2} />
         <pointLight
           position={light1Position}
