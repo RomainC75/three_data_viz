@@ -6,6 +6,7 @@ import HomePage from "./pages/Home.page";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import FormularPage from "./pages/Formular.page";
 import CryptoPage from "./pages/Crypto.page";
+import SamuraiPage from "./pages/Samurai.page";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/formular" element={<FormularPage />} />
           <Route path="/crypto" element={<CryptoPage />} />
+          <Route path="/samurai" element={<SamuraiPage />} />
         </Routes>
       </Router>
     </>
