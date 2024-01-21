@@ -22,7 +22,7 @@ const SamuraiScene = () => {
   const [isMobile, setIsMobile] = useState(false);
   
   let targetPlace = 4
-  const deltaMove=0.01
+  const deltaMove=0.02
   let actualPlace = 0
   const scrollStep = 0.2
 
@@ -35,10 +35,10 @@ const SamuraiScene = () => {
       actualPlace += (camera.position.y<targetPlace) ? deltaMove : -deltaMove
       camera.position.y = actualPlace;
 
-      camera.position.x = Math.sin(actualPlace) * 17;
-      camera.position.z = Math.cos(actualPlace) * 17;
+      camera.position.x = Math.sin(actualPlace*0.7) * 15;
+      camera.position.z = Math.cos(actualPlace*0.7) * 15;
       // camera.rotation.x -= MathUtils.degToRad(e.deltaY/120)
-      camera.lookAt(new Vector3(0, -0.05*actualPlace+10, 0));
+      camera.lookAt(new Vector3(0, -0.03*actualPlace+15, 0));
       console.log("=> y position : ", camera.position.y);
     }
 
@@ -48,7 +48,7 @@ const SamuraiScene = () => {
 
 
   const handleScroll = (e: WheelEvent) => {
-    targetPlace += e.deltaY > 0 ? scrollStep : -scrollStep;
+    targetPlace += e.deltaY > 0 ? 2*scrollStep : -2*scrollStep;
     if(targetPlace>20){
       targetPlace=10
     }else if(targetPlace<0){
