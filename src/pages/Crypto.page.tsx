@@ -21,7 +21,7 @@ const CryptoPage = () => {
 
   useEffect(() => {
     const devises = ["btcusd", "ethusd", "solusd"];
-    const cryptoHistory = new CryptoHistory(devises, 60, 1)
+    const cryptoHistory = new CryptoHistory(devises, 60, 1);
     cryptoHistory.start(data=>{
       console.log("=> history : ", data)
       setLastData(data)

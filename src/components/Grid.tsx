@@ -29,8 +29,8 @@ const Grid = ({maxX, maxY, maxZ}: GridProp) => {
         </line>
 
         {
-          getXYZGridLines([maxX,maxY,maxZ]).map((face)=>face.map(line=>
-            <line geometry={line}>
+          getXYZGridLines([maxX,maxY,maxZ]).map((face)=>face.map((line, index)=>
+            <line geometry={line} key={`grid${index}`}>
           <lineBasicMaterial attach="material" color={'grey'} linewidth={1} linecap={'round'} linejoin={'round'} />
         </line>
             ))

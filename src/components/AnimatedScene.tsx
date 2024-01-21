@@ -5,6 +5,7 @@ import { IPoint } from "../@types/coords";
 import SceneContent from "./SceneContent";
 import { IValue } from "../utils/crypto";
 import { ICryptoData } from "../@types/crypto.types";
+import { useEffect } from "react";
 
 interface AnimatedSceneProps{
   data: ICryptoData
@@ -12,6 +13,10 @@ interface AnimatedSceneProps{
 const MAX=[10,10,10]
 
 const AnimatedScene = ({data}: AnimatedSceneProps) => {
+    useEffect(()=>{
+        console.log("=> ANIMATED SCENE RENDER")
+    },[data]);
+
   return (
     <div
       style={{ width: "1500px", height: "1000px", border: "1px solid white" }}

@@ -11,6 +11,7 @@ export interface IValue extends ILightValue{
 export type IData = {[key: string]: ILightValue[]}
 
 export interface ICryptoData{
+    currencyPairs: string[]
     refresh_delay_s: number;
     period_s: number;
     data: IData;

@@ -67,6 +67,7 @@ export class CryptoHistory extends CryptoSubscription{
       data[currencyPair] = values
     })
     this.cryptoData = {
+      currencyPairs,
       refresh_delay_s,
       period_s,
       data
