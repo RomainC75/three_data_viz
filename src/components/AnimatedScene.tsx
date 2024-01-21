@@ -1,9 +1,6 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import Grid from "./Grid";
-import { IPoint } from "../@types/coords";
 import SceneContent from "./SceneContent";
-import { IValue } from "../utils/crypto";
 import { ICryptoData } from "../@types/crypto.types";
 import { useEffect } from "react";
 
