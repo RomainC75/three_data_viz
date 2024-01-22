@@ -3,9 +3,7 @@ import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Samurai } from "./Samurai";
 import Loader from "../Loader";
 import { useControls } from "leva";
-import {
-  OrbitControls,
-} from "@react-three/drei";
+import { Float, Html, OrbitControls } from "@react-three/drei";
 import { MathUtils, Vector3 } from "three";
 import { Floor } from "./Floor";
 import { StreetSign } from "./StreetSign";
@@ -16,53 +14,55 @@ import {
   EffectComposer,
 } from "@react-three/postprocessing";
 import { KernelSize } from "postprocessing";
+import Panels from "./Panels";
 
-const SamuraiScene = () => {
+interface SamuraiProp {
+  setPanel: (step: number) => void;
+}
+
+const SamuraiScene = ({ setPanel }) => {
   const { camera } = useThree();
   const mouse = useRef([0, 0]);
+  const refLightRef = useRef();
   const [isMobile, setIsMobile] = useState(false);
-  
-  let targetPlace = 4
-  const deltaMove=0.02
-  let actualPlace = 0
-  const scrollStep = 0.2
 
-  useFrame(({clock})=>{
-    // console.log("=> clock : ", clock)
-    // target
-    if((Math.abs(camera.position.y-targetPlace)>0.02) ){
-      console.log("=> MMMOOOOVEEE")
-      
-      actualPlace += (camera.position.y<targetPlace) ? deltaMove : -deltaMove
+  const MAX_Y = 21;
+  let targetPlace = 21;
+  const deltaMove = 0.02;
+  let actualPlace = 0;
+  const scrollStep = 0.2;
+
+  useFrame(({ clock }) => {
+    if (Math.abs(camera.position.y - targetPlace) > 0.02) {
+      actualPlace += camera.position.y < targetPlace ? deltaMove : -deltaMove;
       camera.position.y = actualPlace;
-
-      camera.position.x = Math.sin(actualPlace*0.7) * 15;
-      camera.position.z = Math.cos(actualPlace*0.7) * 15;
-      // camera.rotation.x -= MathUtils.degToRad(e.deltaY/120)
-      camera.lookAt(new Vector3(0, -0.03*actualPlace+15, 0));
-      console.log("=> y position : ", camera.position.y);
+      camera.position.x = Math.sin((actualPlace * 2 * Math.PI) / 19) * 15;
+      camera.position.z = Math.cos((actualPlace * 2 * Math.PI) / 19) * 15;
+      refLightRef.current.intensity = 30 * (actualPlace - 10);
+      if (actualPlace < 20) {
+        camera.lookAt(new Vector3(0, -0.03 * actualPlace + 15, 0));
+      } else {
+        camera.lookAt(
+          new Vector3(-2 * (actualPlace - 20), -0.03 * actualPlace + 15, 0)
+        );
+        camera.rotation.z = MathUtils.degToRad(12 * (actualPlace - 20));
+      }
     }
-
-    // actual
-
-  })
-
+    if (actualPlace > 5 && actualPlace < 8) {
+    } else {
+    }
+  });
 
   const handleScroll = (e: WheelEvent) => {
-    targetPlace += e.deltaY > 0 ? 2*scrollStep : -2*scrollStep;
-    if(targetPlace>20){
-      targetPlace=10
-    }else if(targetPlace<0){
-      targetPlace=0
+    targetPlace += e.deltaY > 0 ? 2 * scrollStep : -2 * scrollStep;
+    if (targetPlace > MAX_Y) {
+      targetPlace = MAX_Y;
+    } else if (targetPlace < 0) {
+      targetPlace = 0;
     }
-    console.log("=> TARGET PLACE : ", targetPlace)
   };
 
   useEffect(() => {
-    // const handleScroll = (window: Window, e: Event) => {
-    //   console.log("=> ", e, window);
-    // };
-
     window.addEventListener("wheel", handleScroll);
     return () => {
       window.removeEventListener("wheel", handleScroll);
@@ -117,14 +117,20 @@ const SamuraiScene = () => {
 
   return (
     <>
-      <fog attach="fog" args={['black', 15, 35]} />
+      <fog attach="fog" args={["black", 15, 35]} />
       <Suspense fallback={<Loader />}>
-        {/* <OrbitControls /> */}
+        <OrbitControls />
         <ambientLight intensity={2} />
         <pointLight
           position={light1Position}
           intensity={light1Intensity}
           color={"#FFECA6"}
+        />
+        <pointLight
+          position={[-10, 0, 10]}
+          // intensity={}
+          color={"red"}
+          ref={refLightRef}
         />
         <pointLight
           position={light2Position}
@@ -145,25 +151,30 @@ const SamuraiScene = () => {
         rotation={[0, 0, MathUtils.degToRad(20)]}
       />
       <EffectComposer>
-        <Bloom
+        {/* <Bloom
           kernelSize={3}
           luminanceThreshold={0}
           luminanceSmoothing={0.4}
-          intensity={0.6}
-        />
+          intensity={0.1}
+        /> */}
         <Bloom
           kernelSize={KernelSize.HUGE}
           luminanceThreshold={0}
           luminanceSmoothing={0}
           intensity={0.1}
         />
-        <DepthOfField target={[0, 0, 13]} focalLength={0.3} bokehScale={15} height={700} />
+        {/* <DepthOfField target={[0, 0, 13]} focalLength={0.3} bokehScale={15} height={700} /> */}
       </EffectComposer>
+
+      <Float floatIntensity={10} rotationIntensity={4}>
+        <Html style={{ userSelect: 'none' }} castShadow receiveShadow occlude="blending" transform>
+          <iframe title="embed" width={700} height={500} src="https://threejs.org/" frameBorder={0} />
+        </Html>
+      </Float>
 
       <Swarm count={isMobile ? 1000 : 2000} mouse={mouse} />
       {/* <CameraShake yawFrequency={0.1} pitchFrequency={0.1} rollFrequency={0.1} /> */}
       <Floor rotation={[0, MathUtils.degToRad(90), 0]} scale={2} />
-      
 
       {/* <ContactShadows scale={10} blur={3} opacity={0.25} far={10} /> */}
     </>
