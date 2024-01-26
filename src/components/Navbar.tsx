@@ -20,6 +20,9 @@ const Navbar = () => {
           <li>
              <Link to="/samurai">Samurai</Link>
           </li>
+          <li>
+             <Link to="/monolith">Monolith</Link>
+          </li>
        </ul>
  </nav>
 
