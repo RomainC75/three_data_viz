@@ -4,9 +4,11 @@ import { PlaneCmp, PlaneCmpProps } from "./Plane";
 import { Ref, useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useArrayOfRefs } from "../hooks/create2DRef";
+import { act } from "react-dom/test-utils";
 
 const PLANE_NUMBER = 10;
-const MAX_HEIGHT = 10
+const MAX_HEIGHT = 10;
+const IMAGE_DISTANCE_TO_CENTER = 5;
 
 const getImagesPositions = (
   imageNumber: number,
@@ -43,13 +45,19 @@ const getTotemMovement = (position: number, target: number, speed: number): numb
     }
 }
 
-const getPlanesMovement = (shift: number, index: number, totalImageNumber: number, height: number) => {
-    const angle = shift * 2 * Math.PI / height
+const getPlanesMovement = (actualPosition: number, target: number, index: number, totalImageNumber: number, height: number, speed: number) => {
+    
+    const fraction = (Math.log10(Math.abs(actualPosition-target))+1.5)/1.8
+
+    const angle = target * 2 * Math.PI  / height
+
+    console.log("=< actual position : ", target - actualPosition)
+    
     return {
         position: [
-          Math.sin((index * 2 * Math.PI) / (totalImageNumber - 1) + angle) * 5,
-          (index * height) / (totalImageNumber - 1) - shift,
-          Math.cos((index * 2 * Math.PI) / (totalImageNumber - 1) + angle) * 5,
+          Math.sin((index * 2 * Math.PI) / (totalImageNumber - 1) + angle) * IMAGE_DISTANCE_TO_CENTER,
+          (index * height ) / (totalImageNumber - 1) - target,
+          Math.cos((index * 2 * Math.PI) / (totalImageNumber - 1) + angle) * IMAGE_DISTANCE_TO_CENTER,
         ],
         rotation: [0, ((index * 2 * Math.PI) / (totalImageNumber - 1)+angle), 0],
       }
@@ -78,13 +86,13 @@ const MonolithScene = () => {
   const speed = 0.05;
 
   useFrame(({ clock })=>{
-        totemRef.current.position.y += getTotemMovement(totemRef.current.position.y, scrollCounter, speed);
-        totemRef.current.rotation.y += getTotemMovement(totemRef.current.rotation.y, scrollCounter, speed);
-
+        const actualPosition = totemRef.current.position.y
+        totemRef.current.position.y += getTotemMovement(actualPosition, scrollCounter, speed);
+        totemRef.current.rotation.y += getTotemMovement(actualPosition, scrollCounter, speed);
         planeRefs.forEach( (planeRef, index) => {
             if(planeRef.current){
                 // planeRef.current.position.x += getTotemMovement(planeRef.current.position.x, scrollCounter, speed)
-                const mvt = getPlanesMovement(scrollCounter, index, PLANE_NUMBER, MAX_HEIGHT)
+                const mvt = getPlanesMovement(actualPosition, scrollCounter, index, PLANE_NUMBER, MAX_HEIGHT, speed)
 
                 // console.log("=> reds : ", planeRef.current)
                 planeRef.current.position.x = mvt.position[0]

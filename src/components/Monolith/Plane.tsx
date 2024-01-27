@@ -12,7 +12,7 @@ export const PlaneCmp = forwardRef((props: PlaneCmpProps, ref) => {
       <planeGeometry />
       <meshLambertMaterial
         color="green" 
-        // side={DoubleSide} 
+        side={DoubleSide} 
       />
     </mesh>
   );
