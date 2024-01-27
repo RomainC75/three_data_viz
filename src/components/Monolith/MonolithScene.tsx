@@ -49,7 +49,7 @@ const getPlanesMovement = (actualPosition: number, target: number, index: number
     
     const fraction = (Math.log10(Math.abs(actualPosition-target))+1.5)/1.8
 
-    const angle = target * 2 * Math.PI  / height
+    const angle = (actualPosition + speed*fraction) * 2 * Math.PI  / height
 
     console.log("=< actual position : ", target - actualPosition)
     
