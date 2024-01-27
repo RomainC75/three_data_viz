@@ -6,6 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import { useArrayOfRefs } from "../hooks/create2DRef";
 
 const PLANE_NUMBER = 10;
+const MAX_HEIGHT = 10
 
 const getImagesPositions = (
   imageNumber: number,
@@ -30,17 +31,28 @@ function easeInOutQuint(x: number): number {
     return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
 }
 
-const getMovement = (position: number, target: number, speed: number): number =>{
+const getTotemMovement = (position: number, target: number, speed: number): number =>{
     const fraction = (Math.log10(Math.abs(position-target))+1.5)/1.8
-
     // const fraction = easeInOutQuint(Math.abs(position-target))
-    if(position< (target)){
-        return speed*fraction
-    }else if(position > (target)){
+    if(position< (target) ){
+        return speed*fraction 
+    }else if(position > (target) ){
         return -speed*fraction
     }else {
         return 0
     }
+}
+
+const getPlanesMovement = (shift: number, index: number, totalImageNumber: number, height: number) => {
+    const angle = shift * 2 * Math.PI / height
+    return {
+        position: [
+          Math.sin((index * 2 * Math.PI) / (totalImageNumber - 1) + angle) * 5,
+          (index * height) / (totalImageNumber - 1) - shift,
+          Math.cos((index * 2 * Math.PI) / (totalImageNumber - 1) + angle) * 5,
+        ],
+        rotation: [0, ((index * 2 * Math.PI) / (totalImageNumber - 1)+angle), 0],
+      }
 }
 
 const MonolithScene = () => {
@@ -56,24 +68,34 @@ const MonolithScene = () => {
 
   useEffect(() => {
     window.addEventListener("wheel", handleScroll);
+    console.log("=> reFs : ", planeRefs)
     return () => {
       window.removeEventListener("wheel", handleScroll);
     };
   }, []);
 
-  let scrollCounter = 0
+  let scrollCounter = 0;
   const speed = 0.05;
 
   useFrame(({ clock })=>{
-        totemRef.current.position.y += getMovement(totemRef.current.position.y, scrollCounter, speed);
-        totemRef.current.rotation.y += getMovement(totemRef.current.rotation.y, scrollCounter, speed);
+        totemRef.current.position.y += getTotemMovement(totemRef.current.position.y, scrollCounter, speed);
+        totemRef.current.rotation.y += getTotemMovement(totemRef.current.rotation.y, scrollCounter, speed);
 
-        planeRefs.forEach(planeRef=>{
-            console.log("=>planeRef", planeRef.current)
+        planeRefs.forEach( (planeRef, index) => {
             if(planeRef.current){
-                planeRef.current.position.x += getMovement(planeRef.current.position.x, scrollCounter, speed)
+                // planeRef.current.position.x += getTotemMovement(planeRef.current.position.x, scrollCounter, speed)
+                const mvt = getPlanesMovement(scrollCounter, index, PLANE_NUMBER, MAX_HEIGHT)
+
+                // console.log("=> reds : ", planeRef.current)
+                planeRef.current.position.x = mvt.position[0]
+                planeRef.current.position.y = mvt.position[1]
+                planeRef.current.position.z = mvt.position[2]
+                planeRef.current.rotation.x = mvt.rotation[0]
+                planeRef.current.rotation.y = mvt.rotation[1]
+                planeRef.current.rotation.z = mvt.rotation[2]
             }
         })
+
     
   })
 
