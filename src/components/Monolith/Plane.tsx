@@ -1,3 +1,4 @@
+import { Ref, forwardRef } from "react";
 import { DoubleSide } from "three";
 
 export interface PlaneCmpProps{
@@ -5,14 +6,14 @@ export interface PlaneCmpProps{
     rotation: [number, number, number];
 }
 
-export const PlaneCmp = (props: PlaneCmpProps) => {
+export const PlaneCmp = forwardRef((props: PlaneCmpProps, ref) => {
   return (
-    <mesh {...props} scale={[2, 2, 2]}>
+    <mesh {...props} ref={ref} scale={[2, 2, 2]}>
       <planeGeometry />
-      <meshLambertMaterial 
+      <meshLambertMaterial
         color="green" 
         // side={DoubleSide} 
       />
     </mesh>
   );
-}
+})
