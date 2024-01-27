@@ -56,7 +56,7 @@ const getPlanesMovement = (actualPosition: number, target: number, index: number
     return {
         position: [
           Math.sin((index * 2 * Math.PI) / (totalImageNumber - 1) + angle) * IMAGE_DISTANCE_TO_CENTER,
-          (index * height ) / (totalImageNumber - 1) - target,
+          (index * height ) / (totalImageNumber - 1) - (actualPosition + speed*fraction),
           Math.cos((index * 2 * Math.PI) / (totalImageNumber - 1) + angle) * IMAGE_DISTANCE_TO_CENTER,
         ],
         rotation: [0, ((index * 2 * Math.PI) / (totalImageNumber - 1)+angle), 0],
