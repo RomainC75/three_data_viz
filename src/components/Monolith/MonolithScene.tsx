@@ -26,13 +26,6 @@ const getImagesPositions = (
     }));
 };
 
-function easeInOutQuint(x: number): number {
-    if(x===0){
-        return 0
-    }
-    return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
-}
-
 const getTotemMovement = (position: number, target: number, speed: number): number =>{
     const fraction = (Math.log10(Math.abs(position-target))+1.5)/1.8
     // const fraction = easeInOutQuint(Math.abs(position-target))
@@ -46,17 +39,12 @@ const getTotemMovement = (position: number, target: number, speed: number): numb
 }
 
 const getPlanesMovement = (actualPosition: number, target: number, index: number, totalImageNumber: number, height: number, speed: number) => {
-    
     const fraction = (Math.log10(Math.abs(actualPosition-target))+1.5)/1.8
-
-    const angle = (actualPosition + speed*fraction) * 2 * Math.PI  / height
-
-    console.log("=< actual position : ", target - actualPosition)
-    
+    const angle = (actualPosition + speed*fraction) * 2 * Math.PI  / height    
     return {
         position: [
           Math.sin((index * 2 * Math.PI) / (totalImageNumber - 1) + angle) * IMAGE_DISTANCE_TO_CENTER,
-          (index * height ) / (totalImageNumber - 1) - (actualPosition + speed*fraction),
+          (index * height ) / (totalImageNumber - 1) - (-actualPosition + speed*fraction),
           Math.cos((index * 2 * Math.PI) / (totalImageNumber - 1) + angle) * IMAGE_DISTANCE_TO_CENTER,
         ],
         rotation: [0, ((index * 2 * Math.PI) / (totalImageNumber - 1)+angle), 0],
@@ -76,7 +64,6 @@ const MonolithScene = () => {
 
   useEffect(() => {
     window.addEventListener("wheel", handleScroll);
-    console.log("=> reFs : ", planeRefs)
     return () => {
       window.removeEventListener("wheel", handleScroll);
     };
@@ -91,10 +78,7 @@ const MonolithScene = () => {
         totemRef.current.rotation.y += getTotemMovement(actualPosition, scrollCounter, speed);
         planeRefs.forEach( (planeRef, index) => {
             if(planeRef.current){
-                // planeRef.current.position.x += getTotemMovement(planeRef.current.position.x, scrollCounter, speed)
-                const mvt = getPlanesMovement(actualPosition, scrollCounter, index, PLANE_NUMBER, MAX_HEIGHT, speed)
-
-                // console.log("=> reds : ", planeRef.current)
+                const mvt = getPlanesMovement(-actualPosition, scrollCounter, index, PLANE_NUMBER, MAX_HEIGHT, speed)
                 planeRef.current.position.x = mvt.position[0]
                 planeRef.current.position.y = mvt.position[1]
                 planeRef.current.position.z = mvt.position[2]
