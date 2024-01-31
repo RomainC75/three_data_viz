@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent Agent
     tools {
         nodejs 'nodejs'
     }
