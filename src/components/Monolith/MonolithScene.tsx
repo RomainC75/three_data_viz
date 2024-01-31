@@ -4,7 +4,6 @@ import { PlaneCmp, PlaneCmpProps } from "./Plane";
 import { Ref, useEffect, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useArrayOfRefs } from "../hooks/create2DRef";
-import { act } from "react-dom/test-utils";
 
 const PLANE_NUMBER = 10;
 const MAX_HEIGHT = 10;

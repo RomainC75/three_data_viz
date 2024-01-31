@@ -1,5 +1,4 @@
 import { Canvas } from '@react-three/fiber'
-import React from 'react'
 import MonolithScene from '../components/Monolith/MonolithScene'
 
 const MonolithPage = () => {

@@ -1,55 +1,46 @@
 pipeline {
     agent any
-
+    tools {
+        nodejs 'nodejs'
+    }
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Install dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
         stage('Build') {
             steps {
-                sh 'npm run build'
+                // checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'Github', url: 'https://github.com/Induprojects/Capstone-Project.git']])
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/RomainC75/three_data_viz.git']])
+                sh 'npm install'
+                // sh 'npm run build'
             }
         }
-
         stage('Test') {
             steps {
-                sh 'npm run test'
+                // sh 'npm run test'
+                echo "Test"
             }
         }
-
-        stage('Build Docker image') {
-            steps {
-                script {
-                    dockerImage = docker.build("my-image:${env.BUILD_ID}")
+       stage('Build Image') {
+            steps { 
+                sh 'docker build -t reactimage .'
+                sh 'docker tag reactimage:latest indumathicloud001/dev:latest'
+            }    
+       }
+       stage('Docker login') {
+            steps { 
+                withCredentials([usernamePassword(credentialsId: 'Dockercred', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                sh "echo $PASS | docker login -u $USER --password-stdin"
+                sh 'docker push indumathicloud001/dev:latest'
                 }
             }
-        }
-
-        stage('Push Docker image') {
-            steps {
+       }
+       stage('Deploy') {
+            steps {  
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        dockerImage.push()
-                    }
+                   def dockerCmd = 'docker run -itd --name My-first-container -p 80:5000 indumathicloud001/dev:latest'
+                   sshagent(['sshkeypair']) {
+                   sh "ssh -o StrictHostKeyChecking=no ubuntu@54.86.64.88 ${dockerCmd}"
+                   }
                 }
             }
-        }
-
-        stage('Deploy') {
-            steps {
-                // Your deployment steps go here
-                // For example, you might use the Docker CLI or a Docker cloud service to deploy your image
-                // sh 'docker run -d -p 80:80 my-image:${env.BUILD_ID}'
-            }
-        }
+       }
     }
 }
