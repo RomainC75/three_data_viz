@@ -14,7 +14,29 @@ const Video = () => {
 //   let xPercent2 = 0;
 
   useEffect(() => {
-    
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: triggerRef.current,
+            scrub: true,
+            start: "top center",
+            end: "bottom top",
+            onUpdate: self => {
+                console.log('progress:', self.progress);
+                // console.log('grayscale:', window.getComputedStyle(videoRef.current).filter);
+            },
+        },
+    });
+    tl.fromTo(
+        videoRef.current,
+        {
+            filter: "grayscale(0%)"
+        },
+        {
+            filter: "grayscale(100%)"
+        },
+        0
+    )
+
     if (textRef1.current ) {
       gsap.set(textRef1.current, {
         left: textRef1.current.getBoundingClientRect().width,
@@ -45,7 +67,7 @@ const Video = () => {
   };
 
   return (
-    <div className="video-section">
+    <div className="video-section" ref={triggerRef}>
       <video
         ref={videoRef}
         className="video"
