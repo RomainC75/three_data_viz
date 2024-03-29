@@ -23,6 +23,9 @@ const Navbar = () => {
           <li>
              <Link to="/monolith">Monolith</Link>
           </li>
+          <li>
+             <Link to="/videotext">VideoText</Link>
+          </li>
        </ul>
  </nav>
 

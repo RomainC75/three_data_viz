@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    container_name: jenkins
+    volumes:
+      - ./jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      
+  agent:
+    image: jenkins/ssh-agent:jdk11
+    privileged: true
+    user: root
+    container_name: agent
+    expose:
+      - 22
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY=ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCuJaQIOVNT7p+TDnxbQ9wJ/QMvT58AjL6FLJWa8LihWr8WH+t242ukE3DZddTsKkjipnEQmQBj0Ru7pic62EXDgXn+JRL0mmUOl0waWcQ4IGRrBsCWvzQQ6bYfp6h50TSURg3HKPlMuQViyUxOskRSiSPBu1+jj2PgmxiwKCZKYFDBm5FIMRWXuGRkoqHfp8e3A2OdYVVy3uC7xbhrJPJTNKbucR7GXS6RcK2j5DVe1IeGJIt4CDFdyMvRSChTgjQvGi/eyU7DXAM5O2JFxGT2Bp/1UgfCPkfUnjL8NZeihRDtPkY2iJd3WpVjEoIcy/rM5fleZECp1ZMQJ9Eg9/GN5liqc5B1uYgQz3U5uEZV5kPhm775cqPc3T8p7EjxheqRD9Uz1yEDWrGdsQrFbQEfWUH3SH6fsDhrfrqydYDW8g5i5kDiy4657+wMBkf7tYHwSj6px3KthVQlg4QhesbFG3VlCRdRfgm1hq39a3p02WMgKih8kK2n3F1N/3wu3Ek= orangepi@chibiop1
