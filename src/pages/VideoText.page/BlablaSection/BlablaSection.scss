@@ -8,13 +8,22 @@
     padding: 0 3rem 300px 3rem;
     display:flex;
     & > .sub_title{
+        transition: all 1s ease-out;
+        position: relative;
+        left: -200%;
         width: 20%;
         margin-right: 3rem;
         text-align: right;
         font-size: 5vw;
+        opacity: 0;
     }
     & > .text {
+        transition: all 1s ease-out;
+        position: relative;
+        right: -200%;
+        
         font-size: 3vw;
         text-align: left;
+        opacity: 0;
     }
 }
