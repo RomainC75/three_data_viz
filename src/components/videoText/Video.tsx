@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import "./Video.scss";
 import gsap from "gsap";
 
@@ -6,55 +6,36 @@ const Video = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const textRef1 = useRef<HTMLHeadingElement>(null);
   const textRef2 = useRef<HTMLHeadingElement>(null);
-  const triggerRef = useRef(null);
+  const wholeSectionRef = useRef<HTMLDivElement>(null);
   let xPercent1 = -180;
 
   let previousPosition = 0
   let direction = true
-//   let xPercent2 = 0;
 
   useEffect(() => {
-    const tl = gsap.timeline({
-        scrollTrigger: {
-            trigger: triggerRef.current,
-            scrub: true,
-            start: "top center",
-            end: "bottom top",
-            onUpdate: self => {
-                console.log('progress:', self.progress);
-                // console.log('grayscale:', window.getComputedStyle(videoRef.current).filter);
-            },
-        },
-    });
-    tl.fromTo(
-        videoRef.current,
-        {
-            filter: "grayscale(0%)"
-        },
-        {
-            filter: "grayscale(100%)"
-        },
-        0
-    )
-
+    
     if (textRef1.current ) {
-      gsap.set(textRef1.current, {
+        gsap.set(textRef1.current, {
         left: textRef1.current.getBoundingClientRect().width,
-      });
-      requestAnimationFrame(animate);
+        });
+        requestAnimationFrame(animate);
     }
     window.addEventListener('scroll', handleScroll);
-
     return () => { // return a cleanup function to unregister our function since it will run multiple times
         window.removeEventListener("scroll", handleScroll);
-      };
-  }, []);
+        };
+    }, []);
 
   const handleScroll = () =>{
-    console.log("=> event : ", window.pageYOffset)
     const newPosition = window.pageYOffset
     direction = newPosition > previousPosition
     previousPosition=newPosition
+    if(videoRef.current && wholeSectionRef){
+        let wholeSectionHeight = wholeSectionRef.current?.offsetHeight;
+        wholeSectionHeight = wholeSectionHeight ?? 0
+        const percent = ((newPosition * 2) / wholeSectionHeight) * 100;
+        videoRef.current.style.filter = `grayscale(${percent}%)`
+    }
   }
 
   const animate = () => {
@@ -67,7 +48,7 @@ const Video = () => {
   };
 
   return (
-    <div className="video-section" ref={triggerRef}>
+    <div className="video-section" ref={wholeSectionRef}>
       <video
         ref={videoRef}
         className="video"
