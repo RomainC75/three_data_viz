@@ -11,7 +11,7 @@ const BlablaSection = () => {
         if (newPosition>300 && titleRef && textRef && titleRef.current && textRef.current){
             titleRef.current.style.left= "0";
             titleRef.current.style.opacity= "1";
-            textRef.current.style.left= "0";
+            textRef.current.style.right= "0";
             textRef.current.style.opacity= "1";
         }
     }
