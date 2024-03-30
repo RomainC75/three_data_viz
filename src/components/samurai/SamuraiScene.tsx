@@ -166,11 +166,11 @@ const SamuraiScene = ({ setPanel }) => {
         {/* <DepthOfField target={[0, 0, 13]} focalLength={0.3} bokehScale={15} height={700} /> */}
       </EffectComposer>
 
-      <Float floatIntensity={10} rotationIntensity={4}>
+      {/* <Float floatIntensity={10} rotationIntensity={4}>
         <Html style={{ userSelect: 'none' }} castShadow receiveShadow occlude="blending" transform>
           <iframe title="embed" width={700} height={500} src="https://threejs.org/" frameBorder={0} />
         </Html>
-      </Float>
+      </Float> */}
 
       <Swarm count={isMobile ? 1000 : 2000} mouse={mouse} />
       {/* <CameraShake yawFrequency={0.1} pitchFrequency={0.1} rollFrequency={0.1} /> */}
