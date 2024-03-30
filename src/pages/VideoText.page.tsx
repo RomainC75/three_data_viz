@@ -2,6 +2,9 @@ import React, { useEffect, useRef } from "react";
 import Video from "../components/videoText/Video";
 import SubMenu from "./VideoText.page/SubMenu/SubMenu";
 
+import "./VideoText.page.scss"
+import BlablaSection from "./VideoText.page/BlablaSection/BlablaSection";
+
 const VideoTextPage = () => {
     const subMenuRef = useRef<HTMLDivElement>(null);
   const handleScroll = () => {
@@ -23,11 +26,12 @@ const VideoTextPage = () => {
 
   return (
     <>
+        <div className="shade"></div>
       <SubMenu ref={subMenuRef}/>
       <Video></Video>
 
-      <div style={{ height: "500px" }}>
-        <p>lkjsdlfkjsdf</p>
+      <div>
+        <BlablaSection/>
       </div>
     </>
   );
